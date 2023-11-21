@@ -1,0 +1,111 @@
+data_nilai_siswa = {
+    "101": {"Nama": "Anies B", "Matematika": 90, "IPA": 85, "Science": 88, "Olahraga": 92, "Politik": 89},
+    "102": {"Nama": "Prabowo", "Matematika": 80, "IPA": 78, "Science": 82, "Olahraga": 79, "Politik": 85},
+    "103": {"Nama": "Ganjar P", "Matematika": 78, "IPA": 76, "Science": 80, "Olahraga": 75, "Politik": 77}
+}
+
+nama_kolom = ["ID", "Nama", "Matematika", "IPA", "Science", "Olahraga", "Politik"]
+
+def tampilkan_data_nilai_siswa():
+    print("\nDaftar Nilai Siswa:\n")
+    print(f"{nama_kolom[0]: <5}|{nama_kolom[1]: <15}|{nama_kolom[2]: <10}|{nama_kolom[3]: <5}|{nama_kolom[4]: <8}|{nama_kolom[5]: <8}|{nama_kolom[6]: <8}")
+    print("----------------------------------------------------")
+    for id_siswa, info_siswa in data_nilai_siswa.items():
+        print(f"{id_siswa: <5}|{info_siswa['Nama']: <15}|{info_siswa['Matematika']: <10}|{info_siswa['IPA']: <5}|{info_siswa['Science']: <8}|{info_siswa['Olahraga']: <8}|{info_siswa['Politik']: <8}")
+    print()
+
+def tambah_nilai_siswa():
+    while True:
+        id_siswa = input("Masukkan ID Siswa: ")
+        if id_siswa in data_nilai_siswa:
+            print("\n(ID sudah ada) Siswa dengan ID ini sudah memiliki nilai.")
+        else:
+            break
+
+    nama = input("Masukkan Nama Siswa: ")
+    
+    mata_pelajaran = ["Matematika", "IPA", "Science", "Olahraga", "Politik"]
+    nilai_siswa = {}
+    for mata_pelajaran in mata_pelajaran:
+        while True:
+            try:
+                nilai = int(input(f"Masukkan nilai {mata_pelajaran}: "))
+                if 0 <= nilai <= 100:
+                    nilai_siswa[mata_pelajaran] = nilai
+                    break
+                else:
+                    print("Nilai harus antara 0 dan 100.")
+            except ValueError:
+                print(f"Masukkan nilai {mata_pelajaran} yang valid (bilangan bulat).")
+
+    data_nilai_siswa[id_siswa] = {"Nama": nama, **nilai_siswa}
+    print("\nNilai siswa ditambahkan dengan sukses!")
+
+def perbarui_nilai_siswa():
+    tampilkan_data_nilai_siswa()
+    
+    while True:
+        id_siswa = input("\nMasukkan ID Siswa untuk diperbarui nilai: ")
+        if id_siswa in data_nilai_siswa:
+            break
+        else:
+            print("\n(ID tidak ditemukan) Siswa dengan ID ini tidak memiliki nilai.")
+    
+    mata_pelajaran = ["Matematika", "IPA", "Science", "Olahraga", "Politik"]
+    for mata_pelajaran in mata_pelajaran:
+        while True:
+            try:
+                nilai_baru = int(input(f"Masukkan nilai {mata_pelajaran} baru: "))
+                if 0 <= nilai_baru <= 100:
+                    break
+                else:
+                    print("Nilai harus antara 0 dan 100.")
+            except ValueError:
+                print(f"Masukkan nilai {mata_pelajaran} yang valid (bilangan bulat).")
+
+        data_nilai_siswa[id_siswa][mata_pelajaran] = nilai_baru
+
+    print("\nNilai siswa diperbarui dengan sukses!")
+
+def hapus_nilai_siswa():
+    tampilkan_data_nilai_siswa()
+    
+    while True:
+        id_siswa = input("\nMasukkan ID Siswa untuk menghapus nilai: ")
+        if id_siswa in data_nilai_siswa:
+            break
+        else:
+            print("\n(ID tidak ditemukan) Siswa dengan ID ini tidak memiliki nilai.")
+    
+    del data_nilai_siswa[id_siswa]
+    print("\nNilai siswa dihapus dengan sukses!")
+
+def menu_utama():
+    while True:
+        print("\nSelamat datang di Sistem Manajemen Nilai Siswa SMU 2024")
+        print('''
+        1. Tampilkan Nilai Siswa
+        2. Tambah Nilai Siswa
+        3. Perbarui Nilai Siswa
+        4. Hapus Nilai Siswa
+        5. Keluar
+        ''')
+        pilihan_pengguna(input("Masukkan pilihan Anda (1-5): "))
+
+def pilihan_pengguna(pilihan):
+    if pilihan == '1':
+        tampilkan_data_nilai_siswa()
+    elif pilihan == '2':
+        tambah_nilai_siswa()
+    elif pilihan == '3':
+        perbarui_nilai_siswa()
+    elif pilihan == '4':
+        hapus_nilai_siswa()
+    elif pilihan == '5':
+        exit()
+    else:
+        print("\nPilihan tidak valid. Harap masukkan nomor dari 1 hingga 5.")
+    menu_utama()
+
+# Jalankan program
+menu_utama()
